@@ -6,12 +6,13 @@ spring:
     username: ${DB_USER}
     password: ${DB_PW}
 spring.sql.init:
-  mode: always
+  mode: never
   # always : ??, embedded : ?? DB?, never : ?? ?? ??
 jpa:
 defer-datasource-initialization: true
 spring.jpa.hibernate:
-  ddl-auto: none
+  ddl-auto: validate
 spring.jpa.properties:
   hibernate :
     show_sql: true
+    format_sql: true

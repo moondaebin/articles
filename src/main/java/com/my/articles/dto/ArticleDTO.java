@@ -23,8 +23,10 @@ public class ArticleDTO {
                 article.getTitle(),
                 article.getContent(),
                 article.getComments()
-                        .stream() stream<Comment>
-                .map(x -> CommentDTO)
+                        .stream()
+                        .map(x->CommentDTO.fromEntity(x))
+                        .toList()
+        );
     }
 
     public static Article fromDto(ArticleDTO dto) {

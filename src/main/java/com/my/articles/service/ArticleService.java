@@ -3,17 +3,26 @@ package com.my.articles.service;
 import com.my.articles.dao.ArticleDAO;
 import com.my.articles.dto.ArticleDTO;
 import com.my.articles.entity.Article;
+import com.my.articles.repostory.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Collections;
 import java.util.List;
 
 @Service
+@RequestMapping("articles")
 public class ArticleService {
+
     @Autowired
     ArticleDAO dao;
+
+    @Autowired
+    ArticleRepository articleRepository;
 
     public List<ArticleDTO> getAllArticle() {
         List<Article> articles = dao.getAllArticle();
@@ -42,5 +51,10 @@ public class ArticleService {
 
     public void insertArticle(ArticleDTO dto) {
         dao.insertArticle(ArticleDTO.fromDto(dto));
+    }
+
+    public Page<ArticleDTO> getArticlePage(Pageable pageable) {
+        Page<Article> articles = articleRepository.findAll(pageable);
+        return articles.map(x -> ArticleDTO.fromArticle(x));
     }
 }
